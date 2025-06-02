@@ -64,7 +64,20 @@ get_items() {
 }
 
 get_password() {
-  pass show "${1}" | head -n1
+  local keys="pass password"
+  local match
+
+  for candidate in $keys; do
+    match=$(pass show "${1}" | grep -i "$candidate" | cut -d ':' -f 2 | xargs)
+
+    if [[ ! -z $match ]]; then break; fi
+  done
+
+  if [[ -z $match ]]; then
+    match=$(pass show "${1}" | head -n1 | xargs)
+  fi
+
+  echo "$match"
 }
 
 get_otp() {
@@ -80,6 +93,10 @@ get_login() {
 
     if [[ ! -z $match ]]; then break; fi
   done
+
+  if [[ -z $match ]]; then
+    match=$(pass show "${1}" | head -n1 | xargs)
+  fi
 
   echo "$match"
 }

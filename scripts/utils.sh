@@ -30,6 +30,8 @@ copy_to_clipboard() {
     echo -n -- "$1" | xsel -b
   elif [[ "$(uname)" == "Linux" ]] && is_cmd_exists "xclip"; then
     echo -n -- "$1" | xclip -i
+  elif [[ "$(uname)" == "FreeBSD" ]] && is_cmd_exists "xclip"; then
+    echo -n -- "$1" | xclip -i
   else
     return 1
   fi
@@ -43,6 +45,8 @@ clear_clipboard() {
   elif [[ "$(uname)" == "Linux" ]] && is_cmd_exists "xsel"; then
     tmux run-shell -b "sleep $SEC && xsel -c -b"
   elif [[ "$(uname)" == "Linux" ]] && is_cmd_exists "xclip"; then
+    tmux run-shell -b "sleep $SEC && echo '' | xclip -i"
+  elif [[ "$(uname)" == "FreeBSD" ]] && is_cmd_exists "xclip"; then
     tmux run-shell -b "sleep $SEC && echo '' | xclip -i"
   else
     return 1
