@@ -64,7 +64,7 @@ get_items() {
 }
 
 get_password() {
-  local keys="pass password"
+  local keys="pass: password:"
   local match
 
   for candidate in $keys; do
@@ -85,7 +85,7 @@ get_otp() {
 }
 
 get_login() {
-  local keys="user login username"
+  local keys="user: login: username:"
   local match
 
   for candidate in $keys; do
